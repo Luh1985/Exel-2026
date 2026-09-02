@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clara | Planilha</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .assistant-dialog { width:min(520px, calc(100vw - 32px)); border:0; border-radius:10px; padding:0; color:var(--ink); box-shadow:0 24px 70px rgba(32,37,35,.22); }
+    .assistant-dialog::backdrop { background:rgba(32,37,35,.28); backdrop-filter:blur(3px); }
+    .assistant-dialog form { padding:24px; }
+    .dialog-header { display:flex; align-items:flex-start; justify-content:space-between; gap:20px; margin-bottom:18px; }
+    .dialog-kicker { color:#70a333; font:600 10px 'DM Mono'; letter-spacing:.09em; text-transform:uppercase; }
+    .dialog-header h2 { margin:6px 0 0; font-size:22px; letter-spacing:-.03em; }
+    .dialog-close { border:0; background:transparent; color:var(--muted); font-size:24px; line-height:1; cursor:pointer; padding:0 2px; }
+    #assistantInput { display:block; width:100%; resize:vertical; border:1px solid var(--line); border-radius:7px; padding:12px; outline:0; color:var(--ink); font:13px 'Space Grotesk'; }
+    #assistantInput:focus { border-color:#82b83b; box-shadow:0 0 0 3px rgba(130,184,59,.15); }
+    .assistant-hint { margin:9px 0 20px; color:var(--muted); font-size:11px; line-height:1.5; }
+    .dialog-actions { display:flex; justify-content:flex-end; gap:8px; }
+    .topbar { overflow-x:auto; }
+    .topbar > .brand, .file-title, .top-actions { flex-shrink:0; }
+    .assistant-toolbar-button { display:block !important; position:fixed; right:16px; bottom:58px; z-index:5; background:var(--lime); border-color:var(--lime); box-shadow:0 7px 18px rgba(32,37,35,.14); }
+    .assistant-toolbar-button:hover { background:#d7fa91; border-color:#d7fa91; }
+    .color-control { display:flex; align-items:center; gap:6px; color:var(--muted); font-size:11px; white-space:nowrap; }
+    #cellColor { width:28px; height:28px; border:1px solid var(--line); border-radius:5px; padding:2px; cursor:pointer; background:var(--paper); }
+    .column-header { position:relative; display:flex; align-items:center; justify-content:center; gap:5px; height:100%; }
+    .column-name-input { width:78px; border:0; background:transparent; color:var(--muted); text-align:center; outline:0; font:11px 'DM Mono'; }
+    .column-name-input:focus { color:var(--ink); background:var(--paper); box-shadow:0 0 0 2px #82b83b; border-radius:3px; }
+    .column-filter-button { border:0; background:transparent; color:var(--muted); cursor:pointer; padding:3px; font:11px 'DM Mono'; }
+    .column-filter-button:hover, .column-filter-button.active { color:var(--ink); background:var(--mint); border-radius:3px; }
+    .filter-menu { position:fixed; z-index:10; width:220px; padding:12px; border:1px solid var(--line); border-radius:7px; background:var(--paper); box-shadow:0 12px 28px rgba(32,37,35,.18); }
+    .filter-menu[hidden] { display:none; }
+    .filter-menu-title { margin:0 0 9px; font:600 12px 'Space Grotesk'; }
+    .filter-menu-search { width:100%; border:1px solid var(--line); border-radius:5px; padding:7px; outline:0; font:11px 'Space Grotesk'; }
+    .filter-values { max-height:170px; overflow:auto; margin:8px 0; }
+    .filter-value { display:flex; align-items:center; gap:7px; padding:5px 2px; font-size:11px; cursor:pointer; }
+    .filter-value span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .filter-menu-actions { display:flex; justify-content:space-between; gap:7px; border-top:1px solid var(--line); padding-top:9px; }
+    .filter-menu-actions button { border:0; background:transparent; color:var(--muted); cursor:pointer; font:11px 'Space Grotesk'; }
+    .filter-menu-actions .filter-apply { background:var(--ink); color:white; border-radius:4px; padding:6px 9px; }
+    .filtered-row { display:none; }
+    .zoom-control { display:flex; align-items:center; gap:4px; margin-left:24px; color:var(--muted); }
+    .zoom-control button { border:0; background:transparent; color:var(--muted); cursor:pointer; font:600 16px 'Space Grotesk'; padding:3px 5px; }
+    .zoom-control button:hover { color:var(--ink); }
+    #zoomInput { width:48px; border:1px solid var(--line); border-radius:4px; padding:5px 3px; text-align:center; color:var(--ink); font:11px 'DM Mono'; outline:0; }
+    #zoomInput:focus { border-color:#82b83b; }
+    .zoom-percent { font:11px 'DM Mono'; }
+    @media (max-width:760px) { .assistant-toolbar-button { display:block !important; } }
+    @media (max-width: 900px) { .toolbar { overflow-x:auto; } }
+  </style>
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark">C</span><span>clara</span><small>planilha</small></div>
+      <div class="file-title"><span class="status-dot"></span><input id="fileName" value="Meu planejamento" aria-label="Nome da planilha"><span class="saved-label" id="saveStatus">Salvo agora</span></div>
+      <div class="top-actions"><button class="icon-button" id="undoButton" title="Desfazer" aria-label="Desfazer">↶</button><button class="icon-button" id="redoButton" title="Refazer" aria-label="Refazer">↷</button><button class="outline-button" id="importButton">↑ Importar</button><button class="primary-button" id="exportButton">↓ Exportar Excel</button><input type="file" id="fileInput" accept=".xlsx,.xls,.csv" hidden></div>
+    </header>
+    <section class="toolbar">
+      <div class="toolbar-group"><button class="tool-button active" data-format="text">Texto</button><button class="tool-button" data-format="bold"><strong>B</strong></button><button class="tool-button" data-format="italic"><em>I</em></button><button class="tool-button" data-format="align">≡</button></div>
+      <div class="divider"></div><div class="toolbar-group"><button class="tool-button" data-action="add-row">＋ Linha</button><button class="tool-button" data-action="add-column">＋ Coluna</button></div>
+      <div class="divider"></div><div class="toolbar-group"><button class="tool-button" id="copyButton" title="Copiar célula selecionada">⧉ Copiar</button><button class="tool-button" id="pasteButton" title="Colar na célula selecionada">▣ Colar</button></div>
+      <div class="divider"></div><div class="toolbar-group"><button class="tool-button" data-action="clear">⌫ Limpar</button><button class="tool-button" data-action="sample">✦ Exemplo</button></div>
+      <div class="divider"></div><label class="color-control" for="cellColor">Cor <input id="cellColor" type="color" value="#ffffff" aria-label="Cor da célula selecionada"></label>
+      <div class="toolbar-spacer"></div><div class="search-box"><span>⌕</span><input id="searchInput" placeholder="Buscar na planilha" aria-label="Buscar na planilha"></div>
+    </section>
+    <section class="formula-row"><div class="name-box" id="nameBox">A1</div><div class="fx">fx</div><input id="formulaInput" placeholder="Digite um valor ou fórmula..." aria-label="Barra de fórmulas"></section>
+    <section class="sheet-frame"><div class="grid-wrap" id="gridWrap"><table id="sheetGrid" aria-label="Planilha editável"></table></div></section>
+    <footer class="bottom-bar"><div class="tabs" id="sheetTabs"></div><button class="add-sheet" id="addSheet" title="Adicionar aba">＋</button><div class="footer-spacer"></div><span id="selectionInfo">1 célula selecionada</span><div class="zoom-control" aria-label="Controle de zoom"><button id="zoomOut" title="Diminuir zoom" aria-label="Diminuir zoom">−</button><input id="zoomInput" type="number" min="50" max="200" step="10" value="100" aria-label="Porcentagem do zoom"><span class="zoom-percent">%</span><button id="zoomIn" title="Aumentar zoom" aria-label="Aumentar zoom">＋</button></div></footer>
+  </main>
+  <button class="outline-button assistant-toolbar-button" id="assistantButton">✦ Solicitar alteração</button>
+  <div class="filter-menu" id="filterMenu" hidden></div>
+  <div class="toast" id="toast" role="status"></div>
+  <dialog class="assistant-dialog" id="assistantDialog" aria-labelledby="assistantTitle">
+    <form method="dialog" id="assistantForm">
+      <div class="dialog-header"><div><span class="dialog-kicker">Assistente da planilha</span><h2 id="assistantTitle">O que você quer alterar?</h2></div><button class="dialog-close" value="cancel" aria-label="Fechar">×</button></div>
+      <textarea id="assistantInput" rows="3" placeholder="Ex.: preencha A1 com Receita ou adicione uma linha" aria-label="Pedido de alteração"></textarea>
+      <p class="assistant-hint">Exemplos: “limpe B2”, “preencha C3 com 120”, “adicione uma coluna”, “insira o exemplo”.</p>
+      <div class="dialog-actions"><button class="outline-button" value="cancel">Cancelar</button><button class="primary-button" id="applyAssistant" value="default">Aplicar alteração</button></div>
+    </form>
+  </dialog>
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
