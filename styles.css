@@ -52,10 +52,13 @@ th, td { height: 31px; min-width: 112px; border-right: 1px solid var(--line); bo
 th { position: sticky; top: 0; z-index: 3; background: #e9eef3; color: #536276; text-align: center; font: 11px 'IBM Plex Mono'; height: 30px; padding: 0; min-width: 112px; }
 th:first-child { left: 0; z-index: 4; min-width: 48px; width: 48px; }
 td.row-number { position: sticky; left: 0; z-index: 2; min-width: 48px; width: 48px; background: #edf1f5; color: #718094; text-align: center; font: 11px 'IBM Plex Mono'; padding: 0; }
-td.cell.selected { box-shadow: inset 0 0 0 2px var(--accent); background: #fffaf6; }
+td.cell.selected { box-shadow: inset 0 0 0 2px var(--selection-color, var(--accent)); background: #fffaf6; }
 td.cell.search-hit { background: #fff1d6; }
 td.cell.formula { color: #315f68; font-family: 'IBM Plex Mono'; font-size: 12px; }
-td.cell[contenteditable=true]:focus { box-shadow: inset 0 0 0 2px var(--accent); background: #fffaf6; }
+td.cell[contenteditable=true]:focus { box-shadow: inset 0 0 0 2px var(--selection-color, var(--accent)); background: #fffaf6; }
+.hide-gridlines th, .hide-gridlines td { border-right-color: transparent; border-bottom-color: transparent; }
+body[data-density="compact"] th, body[data-density="compact"] td { height: 25px; padding-top: 3px; padding-bottom: 3px; }
+body[data-grid-theme="clean"] th { background: #f4f6f8; color: #687587; }
 .bottom-bar { height: 46px; display: flex; align-items: center; padding: 0 28px; border-top: 1px solid var(--line); background: #f8fafb; flex-shrink: 0; }
 .tabs { height: 100%; display: flex; align-items: stretch; gap: 3px; }
 .sheet-tab { border: 0; border-bottom: 2px solid transparent; background: transparent; padding: 0 17px; font: 600 12px 'Source Sans 3'; color: var(--muted); cursor: pointer; }
@@ -72,7 +75,8 @@ td.cell[contenteditable=true]:focus { box-shadow: inset 0 0 0 2px var(--accent);
   .brand small, .saved-label, .icon-button { display: none; }
   .file-title { padding-left: 12px; min-width: 0; }
   .top-actions { gap: 5px; }
-  .outline-button { display: none; }
+  .top-actions > .outline-button:not(#settingsButton) { display: none; }
+  #settingsButton { padding: 9px 8px; }
   .primary-button { padding: 10px; }
   .toolbar { padding: 0 14px; gap: 7px; }
   .toolbar-group [data-format], .toolbar-group [data-action="add-column"] { display: none; }
