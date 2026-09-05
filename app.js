@@ -5,6 +5,9 @@ let activeCell = { row: 0, col: 0 };
 let history = [], historyIndex = -1;
 let clipboardBuffer = '';
 let activeFilterColumn = null;
+let dragClearActive = false;
+let dragClearMoved = false;
+let dragClearCells = new Set();
 const grid = document.getElementById('sheetGrid');
 const formulaInput = document.getElementById('formulaInput');
 const nameBox = document.getElementById('nameBox');
@@ -88,6 +91,9 @@ function copyCell() { clipboardBuffer = currentSheet().cells[activeCell.row]?.[a
 function pasteText(text) { if (!text) return; const values = text.replace(/\r/g, '').split('\n').filter((row, index, rows) => row || index < rows.length - 1).map(row => row.split('\t')); const { rows, cols } = pageSize(); const height = Math.max(rows, activeCell.row + values.length), width = Math.max(cols, activeCell.col + Math.max(...values.map(row => row.length))); ensureSheetSize(currentSheet(), height, width); pushHistory(); values.forEach((row, rowOffset) => row.forEach((value, colOffset) => { currentSheet().cells[activeCell.row + rowOffset][activeCell.col + colOffset] = value; })); persist(); render(); selectCell(activeCell.row, activeCell.col, false); toast('Conteúdo colado'); }
 
 grid.addEventListener('focusin', e => { if (e.target.classList.contains('cell')) selectCell(+e.target.dataset.row, +e.target.dataset.col, false); });
+grid.addEventListener('mousedown', e => { const cell = e.target.closest('.cell'); if (!cell || e.button !== 0) return; dragClearActive = true; dragClearMoved = false; dragClearCells = new Set([`${cell.dataset.row}:${cell.dataset.col}`]); });
+grid.addEventListener('mouseover', e => { const cell = e.target.closest('.cell'); if (!dragClearActive || !cell || !(e.buttons & 1)) return; const key = `${cell.dataset.row}:${cell.dataset.col}`; if (dragClearCells.has(key)) return; dragClearMoved = true; dragClearCells.add(key); });
+document.addEventListener('mouseup', () => { if (!dragClearActive) return; if (dragClearMoved) { const sheet = currentSheet(); const changed = [...dragClearCells].some(key => { const [row, col] = key.split(':').map(Number); return String(sheet.cells[row]?.[col] || '').trim() || sheet.colors[row]?.[col] || Object.keys(sheet.formats[row]?.[col] || {}).length; }); if (changed) { pushHistory(); dragClearCells.forEach(key => { const [row, col] = key.split(':').map(Number); sheet.cells[row][col] = ''; sheet.colors[row][col] = ''; sheet.formats[row][col] = {}; }); persist(); render(); toast('Células limpas'); } } dragClearActive = false; dragClearMoved = false; dragClearCells = new Set(); });
 grid.addEventListener('click', e => { const button = e.target.closest('[data-filter-column]'); if (button) { e.stopPropagation(); openFilterMenu(Number(button.dataset.filterColumn), button); } });
 grid.addEventListener('change', e => { if (!e.target.matches('[data-column-name]')) return; const column = Number(e.target.dataset.columnName); const sheet = currentSheet(); const name = e.target.value.trim() || columnName(column); pushHistory(); sheet.columnNames[column] = name; persist(); render(); });
 grid.addEventListener('focusout', e => { if (e.target.classList.contains('cell')) { const value = e.target.textContent.trim(); if (e.target.dataset.formula === 'true' && displayValue(currentSheet().cells[+e.target.dataset.row][+e.target.dataset.col]) === value) return; commitCell(e.target, value); } });
