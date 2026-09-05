@@ -1,21 +1,21 @@
 * { box-sizing: border-box; }
 
 :root {
-  --ink: #172638;
-  --muted: #687587;
-  --line: #d7dde5;
-  --soft: #f1f4f7;
+  --ink: #2b2140;
+  --muted: #756b86;
+  --line: #ddd6e8;
+  --soft: #f5f1f8;
   --paper: #ffffff;
-  --navy: #172638;
-  --navy-light: #e8edf3;
-  --accent: #a66a3f;
-  --accent-light: #f5ece5;
-  --blue: #e9f1f8;
+  --navy: #3c285b;
+  --navy-light: #eee7f6;
+  --accent: #8056a6;
+  --accent-light: #f1e9f7;
+  --blue: #eee9f8;
   --lime: var(--accent);
   --mint: var(--navy-light);
 }
 
-body { margin: 0; background: #e8edf2; color: var(--ink); font-family: 'Source Sans 3', sans-serif; font-size: 13px; }
+body { margin: 0; background: #eeeaf3; color: var(--ink); font-family: 'Source Sans 3', sans-serif; font-size: 13px; }
 .app-shell { height: 100vh; min-height: 580px; display: flex; flex-direction: column; overflow: hidden; background: var(--paper); }
 .topbar { height: 72px; padding: 0 28px; display: flex; align-items: center; border-bottom: 1px solid var(--line); gap: 28px; flex-shrink: 0; }
 .brand { display: flex; align-items: center; gap: 8px; font-size: 20px; font-weight: 700; letter-spacing: .01em; }
@@ -45,20 +45,20 @@ body { margin: 0; background: #e8edf2; color: var(--ink); font-family: 'Source S
 .name-box { font: 500 12px 'IBM Plex Mono'; background: var(--soft); border: 1px solid var(--line); border-radius: 3px; padding: 7px 11px; min-width: 48px; text-align: center; }
 .fx { font: 600 14px Georgia, serif; color: var(--muted); }
 #formulaInput { border: 0; border-left: 1px solid var(--line); outline: 0; height: 100%; flex: 1; font: 13px 'IBM Plex Mono'; padding: 0 10px; color: var(--ink); }
-.sheet-frame { flex: 1; min-height: 0; overflow: hidden; background: #f8fafb; }
+.sheet-frame { flex: 1; min-height: 0; overflow: hidden; background: #faf8fc; }
 .grid-wrap { height: 100%; overflow: auto; }
 table { border-collapse: separate; border-spacing: 0; min-width: 100%; table-layout: fixed; }
 th, td { height: 31px; min-width: 112px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 6px 9px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; background: white; outline: none; }
-th { position: sticky; top: 0; z-index: 3; background: #e9eef3; color: #536276; text-align: center; font: 11px 'IBM Plex Mono'; height: 30px; padding: 0; min-width: 112px; }
+th { position: sticky; top: 0; z-index: 3; background: #eee8f5; color: #66587a; text-align: center; font: 11px 'IBM Plex Mono'; height: 30px; padding: 0; min-width: 112px; }
 th:first-child { left: 0; z-index: 4; min-width: 48px; width: 48px; }
 td.row-number { position: sticky; left: 0; z-index: 2; min-width: 48px; width: 48px; background: #edf1f5; color: #718094; text-align: center; font: 11px 'IBM Plex Mono'; padding: 0; }
-td.cell.selected { box-shadow: inset 0 0 0 2px var(--selection-color, var(--accent)); background: #fffaf6; }
+td.cell.selected { box-shadow: inset 0 0 0 2px var(--selection-color, var(--accent)); background: #fbf8fd; }
 td.cell.search-hit { background: #fff1d6; }
 td.cell.formula { color: #315f68; font-family: 'IBM Plex Mono'; font-size: 12px; }
-td.cell[contenteditable=true]:focus { box-shadow: inset 0 0 0 2px var(--selection-color, var(--accent)); background: #fffaf6; }
+td.cell[contenteditable=true]:focus { box-shadow: inset 0 0 0 2px var(--selection-color, var(--accent)); background: #fbf8fd; }
 .hide-gridlines th, .hide-gridlines td { border-right-color: transparent; border-bottom-color: transparent; }
 body[data-density="compact"] th, body[data-density="compact"] td { height: 25px; padding-top: 3px; padding-bottom: 3px; }
-body[data-grid-theme="clean"] th { background: #f4f6f8; color: #687587; }
+body[data-grid-theme="clean"] th { background: #f8f5fa; color: #756b86; }
 .bottom-bar { height: 46px; display: flex; align-items: center; padding: 0 28px; border-top: 1px solid var(--line); background: #f8fafb; flex-shrink: 0; }
 .tabs { height: 100%; display: flex; align-items: stretch; gap: 3px; }
 .sheet-tab { border: 0; border-bottom: 2px solid transparent; background: transparent; padding: 0 17px; font: 600 12px 'Source Sans 3'; color: var(--muted); cursor: pointer; }

@@ -17,7 +17,7 @@
     .dialog-header h2 { margin:6px 0 0; font-size:22px; letter-spacing:-.03em; }
     .dialog-close { border:0; background:transparent; color:var(--muted); font-size:24px; line-height:1; cursor:pointer; padding:0 2px; }
     #assistantInput { display:block; width:100%; resize:vertical; border:1px solid var(--line); border-radius:7px; padding:12px; outline:0; color:var(--ink); font:13px 'Space Grotesk'; }
-    #assistantInput:focus { border-color:#82b83b; box-shadow:0 0 0 3px rgba(130,184,59,.15); }
+    #assistantInput:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(128,86,166,.15); }
     .assistant-hint { margin:9px 0 20px; color:var(--muted); font-size:11px; line-height:1.5; }
     .dialog-actions { display:flex; justify-content:flex-end; gap:8px; }
     .topbar { overflow-x:auto; }
@@ -25,12 +25,12 @@
     .assistant-toolbar-button { display:block !important; position:fixed; right:16px; bottom:58px; z-index:5; background:var(--lime); border-color:var(--lime); box-shadow:0 7px 18px rgba(32,37,35,.14); }
     .assistant-toolbar-button:hover { background:#bd8259; border-color:#bd8259; }
     .settings-dialog { width:min(560px, calc(100vw - 32px)); border:0; border-radius:6px; padding:0; color:var(--ink); box-shadow:0 24px 70px rgba(23,38,56,.22); }
-    .settings-dialog::backdrop { background:rgba(23,38,56,.32); backdrop-filter:blur(3px); }
+    .settings-dialog::backdrop { background:rgba(43,33,64,.32); backdrop-filter:blur(3px); }
     .settings-dialog form { padding:24px; }
     .settings-grid { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:14px; margin:20px 0; }
     .settings-field { display:flex; flex-direction:column; gap:6px; color:var(--muted); font-size:12px; }
     .settings-field input, .settings-field select { width:100%; border:1px solid var(--line); border-radius:3px; padding:9px; outline:0; color:var(--ink); background:var(--paper); font:13px 'Source Sans 3'; }
-    .settings-field input:focus, .settings-field select:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(166,106,63,.12); }
+    .settings-field input:focus, .settings-field select:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(128,86,166,.12); }
     .settings-check { display:flex; align-items:center; gap:8px; grid-column:1 / -1; color:var(--ink); font-size:13px; }
     .settings-check input { accent-color:var(--accent); }
     @media (max-width:560px) { .settings-grid { grid-template-columns:1fr; } }
@@ -38,7 +38,7 @@
     #cellColor { width:28px; height:28px; border:1px solid var(--line); border-radius:5px; padding:2px; cursor:pointer; background:var(--paper); }
     .column-header { position:relative; display:flex; align-items:center; justify-content:center; gap:5px; height:100%; }
     .column-name-input { width:78px; border:0; background:transparent; color:var(--muted); text-align:center; outline:0; font:11px 'DM Mono'; }
-    .column-name-input:focus { color:var(--ink); background:var(--paper); box-shadow:0 0 0 2px #82b83b; border-radius:3px; }
+    .column-name-input:focus { color:var(--ink); background:var(--paper); box-shadow:0 0 0 2px var(--accent); border-radius:3px; }
     .column-filter-button { border:0; background:transparent; color:var(--muted); cursor:pointer; padding:3px; font:11px 'DM Mono'; }
     .column-filter-button:hover, .column-filter-button.active { color:var(--ink); background:var(--mint); border-radius:3px; }
     .filter-menu { position:fixed; z-index:10; width:220px; padding:12px; border:1px solid var(--line); border-radius:7px; background:var(--paper); box-shadow:0 12px 28px rgba(32,37,35,.18); }
@@ -56,7 +56,7 @@
     .zoom-control button { border:0; background:transparent; color:var(--muted); cursor:pointer; font:600 16px 'Space Grotesk'; padding:3px 5px; }
     .zoom-control button:hover { color:var(--ink); }
     #zoomInput { width:48px; border:1px solid var(--line); border-radius:4px; padding:5px 3px; text-align:center; color:var(--ink); font:11px 'DM Mono'; outline:0; }
-    #zoomInput:focus { border-color:#82b83b; }
+    #zoomInput:focus { border-color:var(--accent); }
     .zoom-percent { font:11px 'DM Mono'; }
     @media (max-width:760px) { .assistant-toolbar-button { display:block !important; } }
     @media (max-width: 900px) { .toolbar { overflow-x:auto; } }

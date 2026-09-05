@@ -1,6 +1,6 @@
 const PAGE_SIZE = { rows: 2000, cols: 60 };
 const STORAGE_KEY = 'clara-planilha-v1';
-const DEFAULT_SETTINGS = { density: 'comfortable', gridlines: true, gridTheme: 'formal', selectionColor: '#a66a3f', autoSave: true };
+const DEFAULT_SETTINGS = { density: 'comfortable', gridlines: true, gridTheme: 'formal', selectionColor: '#8056a6', autoSave: true };
 let state = loadState();
 let activeCell = { row: 0, col: 0 };
 let history = [], historyIndex = -1;
@@ -15,7 +15,7 @@ const nameBox = document.getElementById('nameBox');
 
 function pageSize() { return PAGE_SIZE; }
 function blankSheet(name) { return { name, columnNames: Array.from({length: PAGE_SIZE.cols}, (_, index) => columnName(index)), cells: Array.from({length: PAGE_SIZE.rows}, () => Array(PAGE_SIZE.cols).fill('')), colors: Array.from({length: PAGE_SIZE.rows}, () => Array(PAGE_SIZE.cols).fill('')), formats: Array.from({length: PAGE_SIZE.rows}, () => Array.from({length: PAGE_SIZE.cols}, () => ({}))) }; }
-function loadState() { try { const saved = JSON.parse(localStorage.getItem(STORAGE_KEY)); if (saved?.sheets?.length) { saved.zoom = Number(saved.zoom) || 100; saved.columnFilters = saved.columnFilters || {}; saved.settings = { ...DEFAULT_SETTINGS, ...(saved.settings || {}) }; return saved; } } catch (_) {} return { fileName: 'Meu planejamento', active: 0, zoom: 100, columnFilters: {}, settings: { ...DEFAULT_SETTINGS }, sheets: [blankSheet('Planejamento')] }; }
+function loadState() { try { const saved = JSON.parse(localStorage.getItem(STORAGE_KEY)); if (saved?.sheets?.length) { saved.zoom = Number(saved.zoom) || 100; saved.columnFilters = saved.columnFilters || {}; saved.settings = { ...DEFAULT_SETTINGS, ...(saved.settings || {}) }; if (saved.settings.selectionColor === '#a66a3f') saved.settings.selectionColor = DEFAULT_SETTINGS.selectionColor; return saved; } } catch (_) {} return { fileName: 'Meu planejamento', active: 0, zoom: 100, columnFilters: {}, settings: { ...DEFAULT_SETTINGS }, sheets: [blankSheet('Planejamento')] }; }
 function columnName(index) { let name = ''; for (let n = index + 1; n; n = Math.floor((n - 1) / 26)) name = String.fromCharCode(65 + ((n - 1) % 26)) + name; return name; }
 function cellRef(row, col) { return `${columnName(col)}${row + 1}`; }
 function currentSheet() { return state.sheets[state.active]; }
