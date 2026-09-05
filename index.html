@@ -22,8 +22,8 @@
     .dialog-actions { display:flex; justify-content:flex-end; gap:8px; }
     .topbar { overflow-x:auto; }
     .topbar > .brand, .file-title, .top-actions { flex-shrink:0; }
-    .assistant-toolbar-button { display:block !important; position:fixed; right:16px; bottom:58px; z-index:5; background:var(--lime); border-color:var(--lime); box-shadow:0 7px 18px rgba(32,37,35,.14); }
-    .assistant-toolbar-button:hover { background:#bd8259; border-color:#bd8259; }
+    .assistant-toolbar-button { display:block !important; flex-shrink:0; background:var(--accent); border-color:var(--accent); color:#fff; box-shadow:none; }
+    .assistant-toolbar-button:hover { background:#6b438e; border-color:#6b438e; }
     .settings-dialog { width:min(560px, calc(100vw - 32px)); border:0; border-radius:6px; padding:0; color:var(--ink); box-shadow:0 24px 70px rgba(23,38,56,.22); }
     .settings-dialog::backdrop { background:rgba(43,33,64,.32); backdrop-filter:blur(3px); }
     .settings-dialog form { padding:24px; }
@@ -75,13 +75,12 @@
       <div class="divider"></div><div class="toolbar-group"><button class="tool-button" id="copyButton" title="Copiar célula selecionada">⧉ Copiar</button><button class="tool-button" id="pasteButton" title="Colar na célula selecionada">▣ Colar</button></div>
       <div class="divider"></div><div class="toolbar-group"><button class="tool-button" data-action="clear">⌫ Limpar</button><button class="tool-button" data-action="sample">✦ Exemplo</button></div>
       <div class="divider"></div><label class="color-control" for="cellColor">Cor <input id="cellColor" type="color" value="#ffffff" aria-label="Cor da célula selecionada"></label>
-      <div class="toolbar-spacer"></div><div class="search-box"><span>⌕</span><input id="searchInput" placeholder="Buscar na planilha" aria-label="Buscar na planilha"></div>
+      <div class="toolbar-spacer"></div><div class="search-box"><span>⌕</span><input id="searchInput" placeholder="Buscar na planilha" aria-label="Buscar na planilha"></div><button class="outline-button assistant-toolbar-button" id="assistantButton">✦ Solicitar alteração</button>
     </section>
     <section class="formula-row"><div class="name-box" id="nameBox">A1</div><div class="fx">fx</div><input id="formulaInput" placeholder="Digite um valor ou fórmula..." aria-label="Barra de fórmulas"></section>
     <section class="sheet-frame"><div class="grid-wrap" id="gridWrap"><table id="sheetGrid" aria-label="Planilha editável"></table></div></section>
     <footer class="bottom-bar"><div class="tabs" id="sheetTabs"></div><button class="add-sheet" id="addSheet" title="Adicionar aba">＋</button><div class="footer-spacer"></div><span id="selectionInfo">1 célula selecionada</span><div class="zoom-control" aria-label="Controle de zoom"><button id="zoomOut" title="Diminuir zoom" aria-label="Diminuir zoom">−</button><input id="zoomInput" type="number" min="50" max="200" step="10" value="100" aria-label="Porcentagem do zoom"><span class="zoom-percent">%</span><button id="zoomIn" title="Aumentar zoom" aria-label="Aumentar zoom">＋</button></div></footer>
   </main>
-  <button class="outline-button assistant-toolbar-button" id="assistantButton">✦ Solicitar alteração</button>
   <div class="filter-menu" id="filterMenu" hidden></div>
   <div class="toast" id="toast" role="status"></div>
   <dialog class="assistant-dialog" id="assistantDialog" aria-labelledby="assistantTitle">
