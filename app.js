@@ -1,4 +1,4 @@
-const PAGE_SIZE = { rows: 30, cols: 12 };
+const PAGE_SIZE = { rows: 2000, cols: 12 };
 const STORAGE_KEY = 'clara-planilha-v1';
 const DEFAULT_SETTINGS = { density: 'comfortable', gridlines: true, gridTheme: 'formal', selectionColor: '#a66a3f', autoSave: true };
 let state = loadState();
