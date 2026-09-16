@@ -20,6 +20,7 @@ Comandos aceitos:
 - pinte a coluna B de amarelo
 - exclua as linhas vazias
 - exclua os valores duplicados
+- consolide disciplinas e turmas duplicadas
 - padronize as vírgulas
 - adicione uma linha
 - adicione uma coluna
