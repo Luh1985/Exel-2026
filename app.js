@@ -78,7 +78,8 @@ function applyAssistantCommand(command) {
   const paintMatch = normalized.match(/(?:pinte|pintar|colorir|colora) (?:a )?(?:coluna )?([a-z]+) (?:de|com) ([a-z]+|#[0-9a-f]{6})/i);
   if (paintMatch) { const color = colorValue(paintMatch[2]); if (color === null) return toast('Cor não reconhecida'); paintColumn(paintMatch[1].toUpperCase(), color); return; }
   if (/^(exclua|excluir|remova|remover|apague|apagar) (as )?(linhas )?(vazias|em branco)$/.test(normalized) || /(exclua|excluir|remova|remover|apague|apagar).*(linhas|linha).*(vazias|em branco)/.test(normalized)) { removeEmptyRows(); return; }
-  if (/(remova|remover|exclua|excluir).*(disciplina|cod[_ ]?disciplina|cod[_ ]?curso).*(duplicad|repetid).*(turma|curriculo|currículo)/.test(normalized) || /(duplicad|repetid).*(disciplina|cod[_ ]?disciplina|cod[_ ]?curso).*(turma|curriculo|currículo)/.test(normalized)) { consolidateDisciplines(); return; }
+  const consolidationRequest = /(remov|exclu|apagu|consolid|junt)/.test(normalized) && /(duplicad|repetid)/.test(normalized) && /disciplina/.test(normalized) && /cod[_ ]?disciplina/.test(normalized) && /cod[_ ]?curso/.test(normalized) && /(turma|curriculo)/.test(normalized);
+  if (consolidationRequest) { consolidateDisciplines(); return; }
   if (/(exclua|excluir|remova|remover|apague|apagar).*(duplicad|repetid).*(codigo|codigos|disciplina)|((junte|juntar|adicione|adicionar).*(codigo|codigos).*(disciplina|linha))/.test(normalized)) { consolidateDisciplines(); return; }
   if (/^(exclua|excluir|remova|remover|apague|apagar) (os )?(valores )?duplicados$/.test(normalized)) { removeDuplicateValues(); return; }
   if (/^(adicione|adicionar|coloque|colocar|insira|inserir) (uma )?(virgula|virgula e espaco|virgulas e espacos) (dentro|entre) (de )?(cada|todas as) celulas?$/.test(normalized) || /^(padronize|padronizar) (as )?(virgulas|separadores)/.test(normalized)) { normalizeCellSeparators(); return; }
